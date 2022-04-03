@@ -16,6 +16,9 @@ export 'package:injewelme/widgets/progressBar_item.dart'; // NutrientsList > Pro
 /* Controller */
 export 'package:injewelme/controller/meal_controller.dart';
 
+/* Model */
+export 'package:injewelme/model/meal_model.dart'; // Meal
+
 /* Utils */
 export 'package:injewelme/utils/palette.dart';
 export 'package:injewelme/utils/dummy_data.dart';
