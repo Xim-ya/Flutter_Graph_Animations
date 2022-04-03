@@ -1,4 +1,3 @@
-import 'package:injewelme/utils/dummy_data.dart';
 import 'package:injewelme/utils/index.dart';
 
 class MainScreen extends StatelessWidget {
@@ -6,6 +5,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.put(MealController());
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -20,45 +20,52 @@ class MainScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 3,
                   itemBuilder: (context, index) {
-                    // Meal Table Item
                     return MealTableItem(indexPath: index);
                   },
                 ),
 
                 /* 다량 영양소 섹션 */
                 // Title
-                Container(
-                  margin: EdgeInsets.only(top: 40, bottom: 20),
-                  child: Text(
-                    "다량영양소",
-                    style: FontStyles().sectionTitle,
-                  ),
-                ),
+                nutrientsSectionTitle(),
                 // Progress Bar List With Animation
+
                 ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: nutrientList.length,
                     itemBuilder: (context, index) {
-                      final nameList = [];
-                      final valueList = [];
-                      nutrientList.forEach((key, value) {
-                        nameList.add(key);
-                        valueList.add(value);
-                      });
                       // Progress Bar Item
                       return ProgressBarItem(
-                        nutrientName: nameList[index],
-                        percentage: valueList[index],
-                        hexColor: barColorHexList[index],
+                        index: index,
+                        c: c,
                       );
                     },
+                    /* 스크롤 시 ProgressBar의 애니메이션을 보여주기 위해 ListView의 첫 번째 separator 위젯에 Detect Event값을 할당  */
                     separatorBuilder: (BuildContext context, int index) =>
-                        SizedBox(height: 14)),
+                        index == 0
+                            ? VisibilityDetector(
+                                key: const Key("bar"),
+                                onVisibilityChanged: (VisibilityInfo info) {
+                                  c.barAnimated
+                                      ? null
+                                      : c.setProgressBarAnimation();
+                                },
+                                child: const SizedBox(height: 14))
+                            : const SizedBox(height: 14)),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Container nutrientsSectionTitle() {
+    return Container(
+      margin: const EdgeInsets.only(top: 40, bottom: 20),
+      child: Text(
+        "다량영양소",
+        style: FontStyles().sectionTitle,
       ),
     );
   }

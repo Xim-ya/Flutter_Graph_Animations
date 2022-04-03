@@ -17,7 +17,7 @@ class FontStyles {
           fontSize: 16,
         ),
         mealOption = const TextStyle(color: Color(0xFF878A8A), fontSize: 14),
-        nutrientTitle = const TextStyle(color: Color(0xFF4D4D4D), fontSize: 14),
+        nutrientName = const TextStyle(color: Color(0xFF4D4D4D), fontSize: 14),
         nestedPercentageIndicator =
             const TextStyle(color: Colors.white, fontSize: 12);
 
@@ -25,7 +25,7 @@ class FontStyles {
   final TextStyle kcalHighLight;
   final TextStyle mealTitle;
   final TextStyle mealOption;
-  final TextStyle nutrientTitle;
+  final TextStyle nutrientName;
   final TextStyle nestedPercentageIndicator;
 }
 
