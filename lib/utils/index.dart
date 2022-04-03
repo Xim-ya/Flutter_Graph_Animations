@@ -4,6 +4,7 @@ export 'package:flutter/material.dart';
 /* Libraries */
 export 'package:get/get.dart';
 export 'package:visibility_detector/visibility_detector.dart';
+export 'package:pie_chart/pie_chart.dart';
 
 /* Screens */
 export 'package:injewelme/screen/main_screen.dart';

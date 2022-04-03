@@ -1,4 +1,5 @@
 import 'package:injewelme/utils/index.dart';
+import 'package:injewelme/widgets/nutrient_pie_chart.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /* Meal Table 섹션 */
+                /*** Meal Table 섹션 ***/
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -24,7 +25,7 @@ class MainScreen extends StatelessWidget {
                   },
                 ),
 
-                /* 다량 영양소 섹션 */
+                /*** 다량 영양소 섹션 ***/
                 // Title
                 nutrientsSectionTitle(),
                 // Progress Bar List With Animation
@@ -32,7 +33,7 @@ class MainScreen extends StatelessWidget {
                 ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: nutrientList.length,
+                    itemCount: nutrients.length,
                     itemBuilder: (context, index) {
                       // Progress Bar Item
                       return ProgressBarItem(
@@ -52,6 +53,17 @@ class MainScreen extends StatelessWidget {
                                 },
                                 child: const SizedBox(height: 14))
                             : const SizedBox(height: 14)),
+                VisibilityDetector(
+                    onVisibilityChanged: (VisibilityInfo info) {
+                      c.setPieChartAnimation();
+                    },
+                    key: const Key("pieChart"),
+                    child: const SizedBox(
+                      height: 50,
+                      width: 10,
+                    )),
+                /*** 다량 영양소 PieChart Section ***/
+                NutrientPieChart(c: c),
               ],
             ),
           ),

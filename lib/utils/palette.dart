@@ -19,7 +19,9 @@ class FontStyles {
         mealOption = const TextStyle(color: Color(0xFF878A8A), fontSize: 14),
         nutrientName = const TextStyle(color: Color(0xFF4D4D4D), fontSize: 14),
         nestedPercentageIndicator =
-            const TextStyle(color: Colors.white, fontSize: 12);
+            const TextStyle(color: Colors.white, fontSize: 12),
+        pieChartPercentageIndicator =
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
 
   final TextStyle sectionTitle;
   final TextStyle kcalHighLight;
@@ -27,6 +29,7 @@ class FontStyles {
   final TextStyle mealOption;
   final TextStyle nutrientName;
   final TextStyle nestedPercentageIndicator;
+  final TextStyle pieChartPercentageIndicator;
 }
 
 /* Global Colors */

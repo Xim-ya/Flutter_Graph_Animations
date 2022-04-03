@@ -1,13 +1,21 @@
 import 'package:injewelme/utils/index.dart';
 
 class MealController extends GetxController {
+  Map<String, double> nutrientList = nutrients;
   List<double> nutrientsPercentage = [];
   List<String> nutrientsName = [];
   bool barAnimated = false;
+  bool pieChartAnimated = false;
 
-  // Perecetange Value를 Controller를 통해 Widget(Bar View)에 전달하여 Animation 생성
+  // Perecetange Value를 Controller를 통해 Widget(AnimatedContainer)에 전달하여 Animation 생성
   void setProgressBarAnimation() {
     barAnimated = true;
+    update();
+  }
+
+  void setPieChartAnimation() {
+    pieChartAnimated = true;
+    print("UPDATED");
     update();
   }
 

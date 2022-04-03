@@ -50,7 +50,7 @@ class ProgressBarItem extends StatelessWidget {
               return AnimatedContainer(
                 duration: Duration(seconds: 1),
                 alignment: Alignment.centerRight,
-                color: Color(barColorHexList[index]),
+                color: barColorHexList[index],
                 height: 18,
                 width: c.barAnimated ? valuableBarWidth * percentage / 100 : 0,
                 child: Padding(
