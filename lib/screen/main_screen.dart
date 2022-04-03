@@ -6,7 +6,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(MealController());
+    final c = Get.put(MealController(model: MealCore()));
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 3,
                   itemBuilder: (context, index) {
-                    return MealTableItem(indexPath: index);
+                    return MealTableItem(indexPath: index, c: c);
                   },
                 ),
                 /*** 다량 영양소 섹션 ***/
@@ -55,7 +55,7 @@ class MainScreen extends StatelessWidget {
   VisibilityDetector pieChartDetectiveWidget(MealController c) {
     return VisibilityDetector(
         onVisibilityChanged: (VisibilityInfo info) {
-          c.setPieChartAnimation();
+          !c.pieChartAnimated ? c.setPieChartAnimation() : null;
         },
         key: const Key("pieChart"),
         child: const SizedBox(
@@ -71,7 +71,11 @@ class MainScreen extends StatelessWidget {
           ? VisibilityDetector(
               key: const Key("bar"),
               onVisibilityChanged: (VisibilityInfo info) {
-                c.barAnimated ? null : c.setProgressBarAnimation();
+                !c.barAnimated
+                    ? c.barAnimated
+                        ? null
+                        : c.setProgressBarAnimation()
+                    : null;
               },
               child: const SizedBox(height: 14))
           : const SizedBox(height: 14);

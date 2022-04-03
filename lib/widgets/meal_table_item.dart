@@ -2,10 +2,13 @@ import 'package:injewelme/utils/index.dart';
 
 class MealTableItem extends StatelessWidget {
   final int indexPath;
-  const MealTableItem({Key? key, required this.indexPath}) : super(key: key);
+  final MealController c;
+  const MealTableItem({Key? key, required this.indexPath, required this.c})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final mealItem = c.mealList[indexPath];
     final _wrappingMargin =
         getResponsiveWidth(MediaQuery.of(context).size.width, 32);
     return Container(
@@ -32,12 +35,15 @@ class MealTableItem extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 24, bottom: 16),
-                  child: Text("조식", style: FontStyles().sectionTitle),
+                  child: Text(mealTime[mealItem.mealTime].toString(),
+                      style: FontStyles().sectionTitle),
                 ),
                 Text.rich(
                   TextSpan(
                     children: <TextSpan>[
-                      TextSpan(text: "828", style: FontStyles().kcalHighLight),
+                      TextSpan(
+                          text: mealItem.kcal.toString(),
+                          style: FontStyles().kcalHighLight),
                       const TextSpan(text: "kcal"),
                     ],
                   ),
@@ -56,18 +62,26 @@ class MealTableItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "율무밥",
+                        mealItem.mealName,
                         style: FontStyles().mealTitle,
                       ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite_border,
-                          color: kPink,
-                        ),
-                      )
+                      GetBuilder<MealController>(
+                          init: c,
+                          builder: (context) {
+                            return IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              onPressed: () {
+                                c.toggleFavoriteMeal(mealItem.id);
+                              },
+                              icon: Icon(
+                                c.selectedMealList.contains(mealItem.id)
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: kPink,
+                              ),
+                            );
+                          }),
                     ],
                   ),
                   // 식단 디테일 리스트
@@ -76,11 +90,11 @@ class MealTableItem extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       const SizedBox(height: 16),
-                      mealOption("종류", "밥류"),
-                      mealOption("재료", "흰쌀1, 흰쌀2, 재료3, 재료4, 재료5",
+                      mealOption("종류", mealType[mealItem.mealType].toString()),
+                      mealOption("재료", mealItem.mealIngredient.join(', '),
                           wrappingMargin: _wrappingMargin),
-                      mealOption("정량", "210g"),
-                      mealOption("칼로리", "130kca"),
+                      mealOption("정량", "${mealItem.gram}g"),
+                      mealOption("칼로리", "${mealItem.kcal}kcal"),
                     ],
                   ),
                 ],
