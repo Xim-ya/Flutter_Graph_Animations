@@ -12,7 +12,7 @@ class MealTableItem extends StatelessWidget {
       height: 216,
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(width: 1, color: kTableBorder),
+          top: const BorderSide(width: 1, color: kTableBorder),
           bottom:
               BorderSide(width: indexPath == 2 ? 1 : 0, color: kTableBorder),
         ),
@@ -31,8 +31,9 @@ class MealTableItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    margin: EdgeInsets.only(top: 24, bottom: 16),
-                    child: Text("조식", style: FontStyles().sectionTitle)),
+                  margin: const EdgeInsets.only(top: 24, bottom: 16),
+                  child: Text("조식", style: FontStyles().sectionTitle),
+                ),
                 Text.rich(
                   TextSpan(
                     children: <TextSpan>[
@@ -47,7 +48,7 @@ class MealTableItem extends StatelessWidget {
           /* Right 섹션 */
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 12, right: 12, top: 24),
+              padding: const EdgeInsets.only(left: 12, right: 12, top: 24),
               child: Column(
                 children: [
                   // 식단 이름
@@ -71,9 +72,10 @@ class MealTableItem extends StatelessWidget {
                   ),
                   // 식단 디테일 리스트
                   ListView(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       mealOption("종류", "밥류"),
                       mealOption("재료", "흰쌀1, 흰쌀2, 재료3, 재료4, 재료5",
                           wrappingMargin: _wrappingMargin),

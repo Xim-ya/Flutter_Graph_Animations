@@ -1,5 +1,5 @@
+import 'package:injewelme/utils/dummy_data.dart';
 import 'package:injewelme/utils/index.dart';
-import 'package:injewelme/widgets/meal_table_item.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,9 +12,11 @@ class MainScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /* Meal Table 섹션 */
                 ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 3,
                   itemBuilder: (context, index) {
@@ -22,6 +24,37 @@ class MainScreen extends StatelessWidget {
                     return MealTableItem(indexPath: index);
                   },
                 ),
+
+                /* 다량 영양소 섹션 */
+                // Title
+                Container(
+                  margin: EdgeInsets.only(top: 40, bottom: 20),
+                  child: Text(
+                    "다량영양소",
+                    style: FontStyles().sectionTitle,
+                  ),
+                ),
+                // Progress Bar List With Animation
+                ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: nutrientList.length,
+                    itemBuilder: (context, index) {
+                      final nameList = [];
+                      final valueList = [];
+                      nutrientList.forEach((key, value) {
+                        nameList.add(key);
+                        valueList.add(value);
+                      });
+                      // Progress Bar Item
+                      return ProgressBarItem(
+                        nutrientName: nameList[index],
+                        percentage: valueList[index],
+                        hexColor: barColorHexList[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        SizedBox(height: 14)),
               ],
             ),
           ),
