@@ -10,7 +10,7 @@ class ProgressBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Percentage Bar Width == deviceWidth - 32(horizonP) - 60 (percentage Indicator)
-    final double valuableBarWidth = MediaQuery.of(context).size.width - 32 - 60;
+    final double valuableBarWidth = MediaQuery.of(context).size.width - 92;
     final percentage = c.nutrientsPercentage[index];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,19 +47,28 @@ class ProgressBarItem extends StatelessWidget {
         GetBuilder<MealController>(
             init: c,
             builder: (context) {
-              return AnimatedContainer(
-                duration: Duration(seconds: 1),
-                alignment: Alignment.centerRight,
-                color: barColorHexList[index],
-                height: 18,
-                width: c.barAnimated ? valuableBarWidth * percentage / 100 : 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: Text(
-                      "${percentage % 1 == 0 ? percentage.toInt() : percentage}%", // 소숫점 변환
-                      style: FontStyles().nestedPercentageIndicator),
+              final double barWidth = valuableBarWidth * percentage / 100;
+              return Stack(clipBehavior: Clip.none, children: [
+                AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  alignment: Alignment.centerRight,
+                  color: barColorHexList[index],
+                  height: 18,
+                  width: c.barAnimated ? barWidth : 0,
                 ),
-              );
+                Positioned(
+                  right: barWidth > 26
+                      ? 6
+                      : -26, // Active Bar 사이즈에 따라 Indicator 위치 변경
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 18,
+                    child: Text(
+                        "${percentage % 1 == 0 ? percentage.toInt() : percentage}%", // 소숫점 변환
+                        style: FontStyles().nestedPercentageIndicator),
+                  ),
+                ),
+              ]);
             }),
       ],
     );

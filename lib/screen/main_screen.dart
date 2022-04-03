@@ -1,5 +1,4 @@
 import 'package:injewelme/utils/index.dart';
-import 'package:injewelme/widgets/nutrient_pie_chart.dart';
 
 class MainScreen extends StatelessWidget {
   final c = Get.put(MealController(model: MealCore()));

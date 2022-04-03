@@ -10,8 +10,9 @@ export 'package:pie_chart/pie_chart.dart';
 export 'package:injewelme/screen/main_screen.dart';
 
 /* Widgets */
-export 'package:injewelme/widgets/meal_table_item.dart'; //  MealTable > MealTableItem
-export 'package:injewelme/widgets/progressBar_item.dart'; // NutrientsList > ProgressBarItem
+export 'package:injewelme/widgets/meal_table_item.dart'; // MainScreen > MealTable > MealTableItem
+export 'package:injewelme/widgets/progressBar_item.dart'; // MainScreen > NutrientsList > ProgressBarItem
+export 'package:injewelme/widgets/nutrient_pie_chart.dart'; // MainScreen > PieChart
 
 /* Controller */
 export 'package:injewelme/controller/meal_controller.dart';
