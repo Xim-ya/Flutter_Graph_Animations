@@ -2,11 +2,9 @@ import 'package:injewelme/utils/index.dart';
 import 'package:injewelme/widgets/nutrient_pie_chart.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
+  final c = Get.put(MealController(model: MealCore()));
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(MealController(model: MealCore()));
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -19,7 +17,7 @@ class MainScreen extends StatelessWidget {
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 3,
+                  itemCount: c.mealList.length,
                   itemBuilder: (context, index) {
                     return MealTableItem(indexPath: index, c: c);
                   },
@@ -30,7 +28,7 @@ class MainScreen extends StatelessWidget {
                 ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: nutrients.length,
+                    itemCount: c.nutrientList.length,
                     itemBuilder: (context, index) {
                       // Progress Bar Item
                       return ProgressBarItem(
@@ -41,7 +39,7 @@ class MainScreen extends StatelessWidget {
                     separatorBuilder: (BuildContext context, int index) =>
                         pieChartDetectiveBuilder(index, c)),
                 pieChartDetectiveWidget(c),
-                /*** 다량 영양소 PieChart Section ***/
+                /*** 다량 영양소 PieChart 섹션 ***/
                 NutrientPieChart(c: c),
               ],
             ),

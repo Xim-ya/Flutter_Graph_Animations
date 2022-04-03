@@ -1,18 +1,19 @@
-/* Defaults */
 import 'package:injewelme/utils/index.dart';
 
-const Map<int, String> mealTime = {
+/* Defaults */
+const Map<int, String> mealTimeDefaults = {
   1011: "조식",
   1100: "중식",
   1101: "석식",
 };
 
-const Map<int, String> mealType = {
+const Map<int, String> mealTypeDefaults = {
   11011: "밥류",
   11100: "국류",
   11101: "반찬류",
 };
 
+// Modeling 데이터
 List<Meal> meals = [
   Meal(32421, 1011, "율무밥", 11011, ["흰쌀"], 210, 130),
   Meal(12312, 1100, "열무보리국", 11100, ["보리", "열무"], 320, 294),

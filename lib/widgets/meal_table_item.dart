@@ -22,83 +22,92 @@ class MealTableItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          /* Left 섹션 */
-          Container(
-            width: getResponsiveWidth(MediaQuery.of(context).size.width, 108),
-            decoration: const BoxDecoration(
-              border: Border(
-                right: BorderSide(width: 1, color: kTableBorder),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          /* Meal Time & Kcal */
+          leadingSection(context, mealItem),
+          /* Meal Name, Meal Options, Heart Button and Else.. */
+          trailingSection(mealItem, _wrappingMargin),
+        ],
+      ),
+    );
+  }
+
+  Expanded trailingSection(Meal mealItem, double _wrappingMargin) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 24),
+        child: Column(
+          children: [
+            // 식단 이름
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 24, bottom: 16),
-                  child: Text(mealTime[mealItem.mealTime].toString(),
-                      style: FontStyles().sectionTitle),
+                Text(
+                  mealItem.mealName,
+                  style: FontStyles().mealTitle,
                 ),
-                Text.rich(
-                  TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: mealItem.kcal.toString(),
-                          style: FontStyles().kcalHighLight),
-                      const TextSpan(text: "kcal"),
-                    ],
-                  ),
-                ),
+                GetBuilder<MealController>(
+                    init: c,
+                    builder: (context) {
+                      return IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          c.toggleFavoriteMeal(mealItem.id);
+                        },
+                        icon: Icon(
+                          c.selectedMealList.contains(mealItem.id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: kPink,
+                        ),
+                      );
+                    }),
               ],
             ),
+            // 식단 디테일 리스트
+            ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: 16),
+                mealOption(
+                    "종류", mealTypeDefaults[mealItem.mealType].toString()),
+                mealOption("재료", mealItem.mealIngredient.join(', '),
+                    wrappingMargin: _wrappingMargin),
+                mealOption("정량", "${mealItem.gram}g"),
+                mealOption("칼로리", "${mealItem.kcal}kcal"),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container leadingSection(BuildContext context, Meal mealItem) {
+    return Container(
+      width: getResponsiveWidth(MediaQuery.of(context).size.width, 108),
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(width: 1, color: kTableBorder),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 24, bottom: 16),
+            child: Text(mealTimeDefaults[mealItem.mealTime].toString(),
+                style: FontStyles().sectionTitle),
           ),
-          /* Right 섹션 */
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(left: 12, right: 12, top: 24),
-              child: Column(
-                children: [
-                  // 식단 이름
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        mealItem.mealName,
-                        style: FontStyles().mealTitle,
-                      ),
-                      GetBuilder<MealController>(
-                          init: c,
-                          builder: (context) {
-                            return IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              onPressed: () {
-                                c.toggleFavoriteMeal(mealItem.id);
-                              },
-                              icon: Icon(
-                                c.selectedMealList.contains(mealItem.id)
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: kPink,
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
-                  // 식단 디테일 리스트
-                  ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      const SizedBox(height: 16),
-                      mealOption("종류", mealType[mealItem.mealType].toString()),
-                      mealOption("재료", mealItem.mealIngredient.join(', '),
-                          wrappingMargin: _wrappingMargin),
-                      mealOption("정량", "${mealItem.gram}g"),
-                      mealOption("칼로리", "${mealItem.kcal}kcal"),
-                    ],
-                  ),
-                ],
-              ),
+          Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                    text: mealItem.kcal.toString(),
+                    style: FontStyles().kcalHighLight),
+                const TextSpan(text: "kcal"),
+              ],
             ),
           ),
         ],
