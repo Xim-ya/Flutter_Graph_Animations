@@ -24,12 +24,9 @@ class MainScreen extends StatelessWidget {
                     return MealTableItem(indexPath: index);
                   },
                 ),
-
                 /*** 다량 영양소 섹션 ***/
-                // Title
-                nutrientsSectionTitle(),
+                nutrientsSectionTitle(), // Title
                 // Progress Bar List With Animation
-
                 ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -41,27 +38,9 @@ class MainScreen extends StatelessWidget {
                         c: c,
                       );
                     },
-                    /* 스크롤 시 ProgressBar의 애니메이션을 보여주기 위해 ListView의 첫 번째 separator 위젯에 Detect Event값을 할당  */
                     separatorBuilder: (BuildContext context, int index) =>
-                        index == 0
-                            ? VisibilityDetector(
-                                key: const Key("bar"),
-                                onVisibilityChanged: (VisibilityInfo info) {
-                                  c.barAnimated
-                                      ? null
-                                      : c.setProgressBarAnimation();
-                                },
-                                child: const SizedBox(height: 14))
-                            : const SizedBox(height: 14)),
-                VisibilityDetector(
-                    onVisibilityChanged: (VisibilityInfo info) {
-                      c.setPieChartAnimation();
-                    },
-                    key: const Key("pieChart"),
-                    child: const SizedBox(
-                      height: 50,
-                      width: 10,
-                    )),
+                        pieChartDetectiveBuilder(index, c)),
+                pieChartDetectiveWidget(c),
                 /*** 다량 영양소 PieChart Section ***/
                 NutrientPieChart(c: c),
               ],
@@ -70,6 +49,33 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+/* 스크롤 시 `PiceChart` 애니메이션을 보여주기 위해 SizedBox에 Detective Event값 할당  */
+  VisibilityDetector pieChartDetectiveWidget(MealController c) {
+    return VisibilityDetector(
+        onVisibilityChanged: (VisibilityInfo info) {
+          c.setPieChartAnimation();
+        },
+        key: const Key("pieChart"),
+        child: const SizedBox(
+          height: 50,
+          width: 10,
+        ));
+  }
+
+  /* 스크롤 시 ProgressBar의 애니메이션을 보여주기 위해 ListView의 첫 번째 separator 위젯에 Detective Event값 할당  */
+  Builder pieChartDetectiveBuilder(int index, MealController c) {
+    return Builder(builder: (context) {
+      return index == 0
+          ? VisibilityDetector(
+              key: const Key("bar"),
+              onVisibilityChanged: (VisibilityInfo info) {
+                c.barAnimated ? null : c.setProgressBarAnimation();
+              },
+              child: const SizedBox(height: 14))
+          : const SizedBox(height: 14);
+    });
   }
 
   Container nutrientsSectionTitle() {
